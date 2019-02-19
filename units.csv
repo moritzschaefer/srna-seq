@@ -1,0 +1,11 @@
+sample,unit,fq1,fq2
+Ago12_1,Ago12,data/ciaudo_RNAi/20160817.B-AGO1-2_1_R1.fastq.gz,
+Ago12_2,Ago12,data/ciaudo_RNAi/20160817.B-AGO1-2_2_R1.fastq.gz,
+Dicer_1,Dicer,data/ciaudo_RNAi/ciaudo_DicerKO/Dicer_KO_C1_R1.fastq.gz,
+Dicer_2,Dicer,data/ciaudo_RNAi/ciaudo_DicerKO/Dicer_KO_H11_R1.fastq.gz,
+Drosha_1,Drosha,data/ciaudo_RNAi/Drosha_KO1_R1.fastq.gz,
+Drosha_2,Drosha,data/ciaudo_RNAi/Drosha_KO2_R1.fastq.gz,
+Dgcr8_1,Dgcr8,data/ciaudo_RNAi/20160410.A-DGCR8KO1_R1.fastq.gz,
+Dgcr8_2,Dgcr8,data/ciaudo_RNAi/20160410.A-DGCR8KO2_R1.fastq.gz,
+WT_1,WT,data/ciaudo_RNAi/E14_P25_R1.fastq.gz,
+WT_2,WT,data/ciaudo_RNAi/E14_P33_R1.fastq.gz,

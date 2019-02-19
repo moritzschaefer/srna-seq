@@ -1,0 +1,44 @@
+# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+samples: samples.csv
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
+# Units are technical replicates (e.g. lanes, or resequencing of the same biological
+# sample).
+units: units.csv
+
+# the sequencing adapter
+adapter: TGGAATTCTCGGGTGCCAAGG
+
+ref:
+  # the STAR index
+  index: "~/data/star-2.4/"
+  # gtf file with transcripts
+  # mmu.gtf in version v21
+  # mir_annotation: "~/data/mmu21.gff3"
+  # complete_annotation: ~/data/gencode.vM20.annotation.gff3
+
+pca:
+  labels:
+    # columns of sample sheet to use for PCA
+    - condition
+
+diffexp:
+  # contrasts for the deseq2 results method
+  # use this to combine with AGO and DGRCG8 KOs https://support.bioconductor.org/p/86347/
+  contrasts:
+    all-mirnas:
+      - dicer
+      - wt
+    noncanonical-mirnas:
+      - dicer
+      - drosha
+    canonical-mirnas:
+      - drosha
+      - wt
+    
+
+
+params:
+  star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
+  feature_counts: "-M -f -O -t exon -g gene_id" # "-t miRNA -g Name"
+  cutadapt-se: "-m 17 -M 30"
+  cutadapt-pe: ""
