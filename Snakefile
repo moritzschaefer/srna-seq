@@ -40,4 +40,5 @@ singularity: "docker://continuumio/miniconda3"
 
 report: "report/workflow.rst"
 
+include: "rules/rna_type_comparison.smk"
 include: "rules/diffexp.smk"
