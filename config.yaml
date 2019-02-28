@@ -58,24 +58,6 @@ diffexp:
       negative:
         - typedicer
         - typeago12
-    canonical-mirnas-weighted-samples:
-      positive:
-        - typewt
-      negative:
-        - typedrosha
-        - typedgcr8
-        - typedicer
-        - typeago12
-      list_values: [1, -0.4, -0.3, -0.2, -0.1]  # dgcr8 drosha are most relevant, then dicer and last ago12
-    noncanonical-mirnas-weighted-samples:
-      positive:
-        - typewt
-        - typedrosha
-        - typedgcr8
-      negative:
-        - typedicer
-        - typeago12
-      list_values: [0.1, 0.45, 0.45, -0.7, -0.3]  # WT shouldn't play an important role as it contains both canonical and non-canonical
 
 params:
   star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
