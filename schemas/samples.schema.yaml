@@ -5,10 +5,10 @@ properties:
   sample:
     type: string
     description: sample name/identifier
-  condition:
+  type:
     type: string
-    description: sample condition that will be compared during differential expression analysis (e.g. a treatment, a tissue time, a disease)
+    description: replicates
 
 required:
   - sample
-  - condition
+  - type

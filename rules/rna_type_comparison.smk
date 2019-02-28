@@ -2,10 +2,15 @@
 
 rule compare_rna_type_expression:
     input:
-        rna_type_counts=expand("counts/{annotation}.tsv", annotation=['mirbase_mmu21', 'mm10-tRNAs', 'gencode.vM20.annotation'])
+        mirbase_counts="counts/mirbase_mmu21.tsv",
+        trna_counts="counts/mm10-tRNAs.tsv",
+        gencode_counts="counts/gencode.vM20.annotation.tsv",
+        gencode_annotation="ref/gencode.vM20.annotation.gff3"
     output:
         plot_path="plot/expression_comparison.png"
     conda:
         "../envs/pandas.yaml"
+    params:
+        samples=units.index.get_level_values('sample').tolist()
     script:
         "../scripts/compare_rna_type_expression.py"

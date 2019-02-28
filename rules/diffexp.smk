@@ -6,10 +6,15 @@ def get_deseq2_threads(wildcards=None):
 
 rule deseq2_init:
     input:
-        counts="counts/mirbase_mmu21.tsv"
-        normalization="counts/mm10-tRNAs.tsv"
+        mirna_counts="counts/mirbase_mmu21.tsv",
+        trna_counts="counts/mm10-tRNAs.tsv",
+        snrna_counts="counts/snrnas.tsv",
+        snorna_counts="counts/snornas.tsv",
+        mt_trna_counts="counts/mt_trnas.tsv"
     output:
-        "deseq2/all.rds"
+        all="deseq2/all.rds",
+        normal_normalized_counts="deseq2/normal_normalized_counts.tsv",
+        special_normalized_counts="deseq2/special_normalized_counts.tsv"
     params:
         samples=config["samples"]
     conda:
@@ -18,9 +23,6 @@ rule deseq2_init:
         "logs/deseq2/init.log"
     threads: get_deseq2_threads()
     script:
-# TODO simply combine the two dataframes (counts and normalization) and use 
-# dds <- estimateSizeFactors(dds, controlGenes=1:200)
-# for normalization where controlGenes is a vector of tRNA indices
         "../scripts/deseq2-init.R"
 
 
