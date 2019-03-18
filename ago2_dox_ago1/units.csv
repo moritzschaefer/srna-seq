@@ -1,0 +1,9 @@
+sample,unit,fq1,fq2
+AGO2_nodoxAGO1_1,ago2_nodox_ago1,data/ciaudo_Ago_sRNA2/20160410.A-C4_Ago1_nodox_A_R1.fastq.gz,
+AGO2_nodoxAGO1_2,ago2_nodox_ago1,data/ciaudo_Ago_sRNA2/20160410.A-C4_Ago1_nodox_B_R1.fastq.gz,
+AGO2_doxAGO1_1,ago2_dox_ago1,data/ciaudo_Ago_sRNA2/20160410.A-C4_Ago1_dox_A_R1.fastq.gz,
+AGO2_doxAGO1_2,ago2_dox_ago1,data/ciaudo_Ago_sRNA2/20160410.A-C4_Ago1_dox_B_R1.fastq.gz,
+AGO2_1,ago2,data/ciaudo_Ago_sRNA2/20160129.A-Ago2KO_5-3_R1.fastq.gz,
+AGO2_2,ago2,data/ciaudo_Ago_sRNA2/20160129.A-Ago2KO_C4_R1.fastq.gz,
+WT_1,wt,data/ciaudo_Ago_sRNA2/20160129.A-E14_P33_R1.fastq.gz,
+WT_2,wt,data/ciaudo_Ago_sRNA2/20160129.A-E14_P25_R1.fastq.gz,

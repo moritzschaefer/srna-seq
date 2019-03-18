@@ -1,7 +1,7 @@
 import pandas as pd
 from snakemake.utils import validate, min_version
 
-configfile: "config.yaml"
+# configfile: "config_rnai_mutants.yaml"
 
 ##### load config and sample sheets #####
 
@@ -18,7 +18,7 @@ units = pd.read_csv(
 units.index = units.index.set_levels(
     [i.astype(str) for i in units.index.levels])  # enforce str in index
 validate(
-    units, schema="../../lib/srna-seq-star-deseq2/schemas/units.schema.yaml")
+    units, schema="schemas/units.schema.yaml")
 
 include: "../../lib/srna-seq-star-deseq2/Snakefile"
 ##### target rules #####
