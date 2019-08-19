@@ -39,6 +39,6 @@ diffexp:
 
 params:
   star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
-  feature_counts: "-M -f -O -t exon -g gene_id" # "-t miRNA -g Name"
+  feature_counts: "-f -M -s 1 -t exon -g gene_id" # double check if working fine (-s 1 -> strand direction)
   cutadapt-se: "-m 17 -M 30"
   cutadapt-pe: ""
