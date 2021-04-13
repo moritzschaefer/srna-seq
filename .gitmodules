@@ -1,0 +1,3 @@
+[submodule "srna-seq-star-deseq2"]
+	path = srna-seq-star-deseq2
+	url = https://github.com/moritzschaefer/srna-seq-star-deseq2
