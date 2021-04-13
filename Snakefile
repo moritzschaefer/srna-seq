@@ -1,17 +1,10 @@
 import pandas as pd
 from snakemake.utils import validate, min_version
 
-# configfile: "config_rnai_mutants.yaml"
-
 ##### load config and sample sheets #####
 
 validate(
     config, schema="schemas/config.schema.yaml")
-
-samples = pd.read_csv(config["samples"], dtype=str).set_index("sample", drop=False)
-validate(
-    samples,
-    schema="schemas/samples.schema.yaml")
 
 units = pd.read_csv(
     config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
@@ -20,19 +13,29 @@ units.index = units.index.set_levels(
 validate(
     units, schema="schemas/units.schema.yaml")
 
-include: "../../lib/srna-seq-star-deseq2/Snakefile"
+include: "./lib/srna-seq-star-deseq2/Snakefile"
 ##### target rules #####
+
+# this should go into config.yaml
+RNA_TYPES = ['tdrs', 'mirbase_mmu21']
 
 rule all:
     input:
-        expand(["results/diffexp/{contrast}.diffexp.tsv",
-                "results/diffexp/{contrast}.ma-plot.svg"],
+        expand(["results/diffexp.{rna_type}/{contrast}.diffexp.tsv",
+                "results/diffexp.{rna_type}/{contrast}.ma-plot.svg"],
+               rna_type=RNA_TYPES,
                contrast=config["diffexp"]["contrasts"]),
-        "counts/mirbase_mmu21.cpm.tsv",
+        expand("counts/{rna_type}.cpm.tsv", rna_type=RNA_TYPES),
         "counts/wen15_mirtrons.tsv",  # the unmapped (mirbase)  mirtrons from wen15
         "counts/wen15_mirtrons.cpm.tsv",
-        # "results/pca.svg",
-        "plot/expression_comparison.png"
+        expand("plot/{rna_type}.pca.svg", rna_type=RNA_TYPES),
+        
+        "plot/expression_comparison.png",  # compare trnas, snornas, srnas, mirnas (to see what fits for normalization)
+        "qc/multiqc.html",  # QC of trimmed reads 
+
+        # only for tRNAs:
+        "plot/tdrs_pca.png",  # TODO delete? (because deseq plots it...)
+        "plot/tdrs_correlation.png",
 
 ##### setup singularity #####
 
@@ -47,3 +50,4 @@ report: "report/workflow.rst"
 include: "rules/wen_annotation.smk"
 include: "rules/rna_type_comparison.smk"
 include: "rules/diffexp.smk"
+include: "rules/trnas.smk"

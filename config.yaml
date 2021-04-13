@@ -1,0 +1,167 @@
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
+# Units are technical replicates (e.g. lanes, or resequencing of the same biological
+# sample).
+units: units.csv
+
+# the sequencing adapter
+adapter: TGGAATTCTCGGGTGCCAAGG
+
+ref:
+  # the STAR index
+  index: "~/data/star-2.4/"
+  # gtf file with transcripts
+  # mmu.gtf in version v21
+  # mir_annotation: "~/data/mmu21.gff3"
+  # complete_annotation: ~/data/gencode.vM20.annotation.gff3
+
+pca:
+  labels:
+    - type  # this is the only variable we have for our samples
+
+# TODO add formula?
+
+diffexp:
+  # contrasts for the deseq2 results method
+  contrasts:
+    # RNAi mutants
+    all-mirnas:
+      negative:
+        - typewt
+      positive:
+        - typedicer
+    canonical-mirnas-confident-samples:
+      negative:
+        - typewt
+      positive:
+        - typedrosha
+        - typedgcr8
+    noncanonical-mirnas-confident-samples:
+      negative:
+        - typedrosha
+      positive:
+        - typedicer
+    canonical-mirnas-many-samples:
+      negative:
+        - typewt
+      positive:
+        - typedrosha
+        - typedgcr8
+        - typedicer
+        - typeago12
+    noncanonical-mirnas-many-samples:
+      negative:
+        - typewt
+        - typedrosha
+        - typedgcr8
+      positive:
+        - typedicer
+        - typeago12
+    
+    # single RNAi mutants
+    dgcr8:
+      negative:
+        - typewt
+      positive:
+        - typedgcr8
+    drosha:
+      negative:
+        - typewt
+      positive:
+        - typedrosha
+    dicer:
+      negative:
+        - typewt
+      positive:
+        - typedicer
+    ago12:
+      negative:
+        - typewt
+      positive:
+        - typeago12
+    ago2:
+      negative:
+        - typewt_from_ago2seq
+      positive:
+        - typeago2
+
+    # AGO2KO Ago1 overexpression data set
+    ago2_affected:
+      negative:
+        - typewt_from_ago2seq
+      positive:
+        - typeago2
+        - typeago2_nodox_ago1
+    ago1_overexpression:
+      negative:
+        - typeago2_dox_ago1
+      positive:
+        - typeago2
+        - typeago2_nodox_ago1
+
+    # AGO2 RIP
+    rip_ago_loading:
+      negative:
+        - typerip_e14_ago1
+      positive:
+        - typerip_e14_ago2
+    rip_ago_loading_confident:
+      negative:
+        - typerip_e14_ago1
+        - typerip_ago2ko_ago1
+      positive:
+        - typerip_e14_ago2
+        - typerip_ago1ko_ago2
+
+    rip_ago2_vs_input:
+      negative:
+        - typeinput_e14
+      positive:
+        - typerip_e14_ago2
+
+    rip_ago1_vs_input:
+      negative:
+        - typeinput_e14
+      positive:
+        - typerip_e14_ago1
+
+    rip_agos_vs_input:
+      negative:
+        - typeinput_e14
+      positive:
+        - typerip_e14_ago2
+        - typerip_e14_ago1
+
+    rip_agos_vs_input_many_samples:
+      negative:
+        - typeinput_e14
+        - typewt
+        - typewt_from_ago2seq
+      positive:
+        - typerip_e14_ago2
+        - typerip_e14_ago1
+        - typerip_ago1ko_ago2
+        - typerip_ago2ko_ago1
+
+    rip_ago1_vs_input_many_samples:
+      negative:
+        - typeinput_e14
+        - typewt
+        - typewt_from_ago2seq
+      positive:
+        - typerip_e14_ago1
+        - typerip_ago2ko_ago1
+
+    rip_ago2_vs_input_many_samples:
+      negative:
+        - typeinput_e14
+        - typewt
+        - typewt_from_ago2seq
+      positive:
+        - typerip_e14_ago2
+        - typerip_ago1ko_ago2
+
+params:
+  star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
+  feature_counts: "-f -M -s 1 -t exon -g gene_id --minOverlap 17" # "-t miRNA -g Name" -s 1 is the correct strandness
+  cutadapt-se: "-m 14 -M 40"  # 14-40 is for trnas, miRNAs only need 17-30. It doesn't make a difference though (I tested it)
+  cutadapt-pe: ""

@@ -1,0 +1,4 @@
+channels:
+  - bioconda
+dependencies:
+  - tdrmapper =1.1

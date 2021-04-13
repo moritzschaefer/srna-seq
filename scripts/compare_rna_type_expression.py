@@ -1,7 +1,9 @@
 import re
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.pyplot as plt
+
 dfs = []
 gencode_counts_df = pd.read_csv(
     snakemake.input.gencode_counts,
@@ -46,6 +48,10 @@ data['tRNA'] = pd.read_csv(
     sep='\t',
     index_col=0,
     usecols=['Geneid'] + snakemake.params.samples).sum(axis=0)
+data['tDR'] = pd.read_csv(
+    snakemake.input.tdr_counts,
+    sep='\t',
+    index_col=0).sum(axis=0)
 df = pd.DataFrame(data).T
 df.index.name = 'rna_type'
 fig, ax = plt.subplots(figsize=(14, 10))
@@ -59,5 +65,7 @@ sns.barplot(
     y='counts',
     hue='rna_type',
     ax=ax)
+ax.set_xticklabels(ax.get_xticklabels(), rotation=20, ha='right')
+ax.set_yscale('log')
 plt.tight_layout()
 plt.savefig(snakemake.output.plot_path, dpi=120)

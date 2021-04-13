@@ -4,9 +4,18 @@ sink(log, type="message")
 
 library("DESeq2")
 
-mirna_counts <- read.table(snakemake@input[["mirna_counts"]], header=TRUE, row.names="Geneid", sep="\t")
-mirna_counts <- mirna_counts[-c(1:5)]
+# colData and countData must have the same sample order, but this is ensured
+# by the way we create the count matrix
+coldata <- read.table(snakemake@params[["units"]], header=TRUE, row.names="sample", sep=",")
+names(coldata)[names(coldata) == "unit"] <- "type"
+coldata <- coldata[1]
 
+target_counts <- read.delim(snakemake@input[["target_counts"]], row.names="Geneid")
+# tDRs and mirbase_mmu21 have different number of index columns, so we have to cut the first columns
+if (ncol(target_counts) > nrow(coldata)) {  # if there are more columns than samples
+  index_cols = ncol(target_counts) - nrow(coldata)
+  target_counts <- target_counts[-c(1:index_cols)]  # cut the index_cols
+}
 
 normalization_counts <- rbind(
   read.table(snakemake@input[["trna_counts"]], header=TRUE, row.names="Geneid", sep="\t"),
@@ -25,12 +34,7 @@ if (snakemake@threads > 1) {
     parallel <- TRUE
 }
 
-# colData and countData must have the same sample order, but this is ensured
-# by the way we create the count matrix
-coldata <- read.table(snakemake@params[["samples"]], header=TRUE, row.names="sample", sep=",")
-# cts <- cts[-c(1:5)]
-
-dds.normal <- DESeqDataSetFromMatrix(countData=mirna_counts,
+dds.normal <- DESeqDataSetFromMatrix(countData=target_counts,
                               colData=coldata,
                               design=~ 0+type)
 

@@ -4,6 +4,7 @@ rule compare_rna_type_expression:
     input:
         mirbase_counts="counts/mirbase_mmu21.tsv",
         trna_counts="counts/mm10-tRNAs.tsv",
+        tdr_counts="counts/tdrs.tsv",
         gencode_counts="counts/gencode.vM20.annotation.tsv",
         gencode_annotation="ref/gencode.vM20.annotation.gff3"
     output:

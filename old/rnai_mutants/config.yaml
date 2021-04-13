@@ -1,0 +1,66 @@
+# path or URL to sample sheet (TSV format, columns: sample, condition, ...)
+samples: samples.csv
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2)
+# Units are technical replicates (e.g. lanes, or resequencing of the same biological
+# sample).
+units: units.csv
+
+# the sequencing adapter
+adapter: TGGAATTCTCGGGTGCCAAGG
+
+ref:
+  # the STAR index
+  index: "~/data/star-2.4/"
+  # gtf file with transcripts
+  # mmu.gtf in version v21
+  # mir_annotation: "~/data/mmu21.gff3"
+  # complete_annotation: ~/data/gencode.vM20.annotation.gff3
+
+pca:
+  labels:
+    # columns of sample sheet to use for PCA
+    - condition
+
+# TODO add formula?
+
+diffexp:
+  # contrasts for the deseq2 results method
+  contrasts:
+    all-mirnas:
+      positive:
+        - typewt
+      negative:
+        - typedicer
+    canonical-mirnas-confident-samples:
+      positive:
+        - typewt
+      negative:
+        - typedrosha
+        - typedgcr8
+    noncanonical-mirnas-confident-samples:
+      positive:
+        - typedrosha
+      negative:
+        - typedicer
+    canonical-mirnas-many-samples:
+      positive:
+        - typewt
+      negative:
+        - typedrosha
+        - typedgcr8
+        - typedicer
+        - typeago12
+    noncanonical-mirnas-many-samples:
+      positive:
+        - typewt
+        - typedrosha
+        - typedgcr8
+      negative:
+        - typedicer
+        - typeago12
+
+params:
+  star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
+  feature_counts: "-f -M -s 1 -t exon -g gene_id --minOverlap 17" # "-t miRNA -g Name"
+  cutadapt-se: "-m 14 -M 40"
+  cutadapt-pe: ""

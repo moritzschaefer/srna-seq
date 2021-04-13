@@ -5,8 +5,6 @@ description: snakemake configuration file
 type: object
 
 properties:
-  samples:
-    type: string
   units:
     type: string
   adapter:
@@ -54,7 +52,6 @@ properties:
       - cutadapt-pe
 
 required:
-  - samples
   - units
   - adapter
   - ref

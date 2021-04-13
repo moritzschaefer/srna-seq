@@ -23,7 +23,7 @@ pca:
 
 # TODO add formula?
 
-diffexp:
+diffexp:  # TODO adapt..
   # contrasts for the deseq2 results method
   contrasts:
     all-mirnas:
@@ -59,8 +59,9 @@ diffexp:
         - typedicer
         - typeago12
 
+# all but cutadapt are unnecessary for trnas..
 params:
   star: "--outFilterMismatchNoverLmax 0.05"  # leads to 0 mismatch for <20b and 1 masmatich 20-39bp
-  feature_counts: "-f -M -s 1 -t exon -g gene_id --minOverlap 17" # "-t miRNA -g Name"
-  cutadapt-se: "-m 17 -M 30"
+  feature_counts: "-f -M -s 0 -t exon -g gene_id --minOverlap 14" # "-t miRNA -g Name" # -M is count multimapping reads (is this good?)
+  cutadapt-se: "-m 14 -M 40"  # recommendation from tDRmapper
   cutadapt-pe: ""
